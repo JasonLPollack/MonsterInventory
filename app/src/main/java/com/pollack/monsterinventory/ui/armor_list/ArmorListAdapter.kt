@@ -18,19 +18,35 @@ import kotlinx.android.synthetic.main.armor_item_view.view.*
 class ArmorListAdapter(private val items: List<ArmorPart>): RecyclerView.Adapter<ArmorListAdapter.ArmorViewHolder>() {
 
     class ArmorViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+        companion object {
+            val slotIds = arrayOf(R.id.slot_1, R.id.slot_2, R.id.slot_3, R.id.slot_4)
+            val slotImageResIds = arrayOf(R.drawable.ic_twotone_looks_1_24, R.drawable.ic_twotone_looks_2_24,
+                R.drawable.ic_twotone_looks_3_24, R.drawable.ic_twotone_looks_4_24)
+
+            private fun getImageResIdForSlotIndex(slotRanks: List<Int>, index: Int) : Int? {
+                //Ranks are given in 1-4. Need to subtract one to get an index into the array
+                val rank = slotRanks[index]
+                val slotIndex = rank - 1
+                return slotImageResIds.getOrNull(slotIndex)
+            }
+        }
+
         fun bindTo(item: ArmorPart) {
             view.item_name.text = item.name
             view.type_image.setImageResource(item.imageResource)
             view.item_rank.text = item.rankText
             view.item_min_defense.text = item.minDefenseText
-            view.item_slots.removeAllViews()
 
-            item.slotNumbers.forEach {slot ->
-                val slotImage = LayoutInflater.from(view.context).inflate(R.layout.slot_number_view, null, false).apply {
-                    val slotNumberField = findViewById<TextView>(R.id.slot_number)
-                    slotNumberField.text = slot.toString()
+            //Determine whether each slot image should be visible, and if so, which rank icon to display
+            val slotRanks = item.slotRanks
+            slotIds.forEachIndexed {index, slotid ->
+                val slotImageView = view.findViewById<ImageView>(slotid) ?: return
+                getImageResIdForSlotIndex(slotRanks, index)?.let {imageResId ->
+                    slotImageView.visibility = View.VISIBLE
+                    slotImageView.setImageResource(imageResId)
+                } ?: run {
+                    slotImageView.visibility = View.GONE
                 }
-                view.item_slots.addView(slotImage)
             }
         }
     }

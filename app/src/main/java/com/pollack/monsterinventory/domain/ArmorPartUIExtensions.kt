@@ -14,4 +14,4 @@ val ArmorPart.imageResource get() = when (type) {
 
 val ArmorPart.rankText get() = rank.toUpperCase()
 val ArmorPart.minDefenseText get() = "${defense.base}+"
-val ArmorPart.slotNumbers get() = slots.map {it.rank}
+val ArmorPart.slotRanks get() = slots.map {it.rank}
