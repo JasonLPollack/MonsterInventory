@@ -1,15 +1,9 @@
 package com.pollack.monsterinventory.ui.armor_list
 
-import android.app.ActionBar
-import android.content.res.Resources
-import android.text.Layout
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.pollack.monsterinventory.R
 import com.pollack.monsterinventory.domain.*
@@ -24,8 +18,9 @@ class ArmorListAdapter(private val items: List<ArmorPart>): RecyclerView.Adapter
                 R.drawable.ic_twotone_looks_3_24, R.drawable.ic_twotone_looks_4_24)
 
             private fun getImageResIdForSlotIndex(slotRanks: List<Int>, index: Int) : Int? {
+                val rank = slotRanks.getOrNull(index) ?: return null
+
                 //Ranks are given in 1-4. Need to subtract one to get an index into the array
-                val rank = slotRanks[index]
                 val slotIndex = rank - 1
                 return slotImageResIds.getOrNull(slotIndex)
             }
@@ -60,7 +55,6 @@ class ArmorListAdapter(private val items: List<ArmorPart>): RecyclerView.Adapter
         val part = items[position]
         holder.bindTo(part)
     }
-
 
     override fun getItemCount() = items.size
 }
