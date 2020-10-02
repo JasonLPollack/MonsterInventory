@@ -7,6 +7,7 @@ import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
+import com.pollack.monsterinventory.MonsterInventoryApp
 import com.pollack.monsterinventory.R
 import com.pollack.monsterinventory.domain.ArmorPart
 import com.pollack.monsterinventory.domain.getRankText
@@ -16,24 +17,27 @@ import com.pollack.util.TAG
 import com.pollack.util.showBackButton
 import kotlinx.android.synthetic.main.fragment_armor_detail.*
 import kotlinx.coroutines.*
+import org.rewedigital.katana.KatanaTrait
+import org.rewedigital.katana.inject
 import java.net.URL
 
 class ArmorDetailFragment : Fragment(R.layout.fragment_armor_detail),
+    KatanaTrait,
     CoroutineScope by CoroutineScope(Job() + Dispatchers.IO)
 {
-    //Normally, dependencies like this would be injected
-    private val imageRepository = ImageRepository()
+    override val component = MonsterInventoryApp.appComponent
+
+    private val imageRepository : ImageRepository by inject()
 
     private val args: ArmorDetailFragmentArgs by navArgs()
-    var item: ArmorPart? = null
+
     private val model: ItemsListModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         Log.v(TAG, "Show item ${args.armorItemId}")
-        item = model.getItemById(args.armorItemId)
-        item?.let {item ->
+        model.getItemById(args.armorItemId)?.let { item ->
             displayDetailForItem(item)
         }
 
