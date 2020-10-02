@@ -47,8 +47,8 @@ class ItemsListModel : ViewModel(), CoroutineScope by CoroutineScope(Job() + Dis
                 val types = parts.mapTo(HashSet()) {it.type}
                 Log.v(TAG, "Ranks: ${ranks.joinToString(", ")}")
                 Log.v(TAG, "Types: ${types.joinToString(", ")}")
-                val maxSlots = parts.maxOf { it.numSlots }
-                Log.v(TAG, "Max Slots: $maxSlots")
+                val skills = parts.maxOf { it.skills.size }
+                Log.v(TAG, "Max Skills: $skills")
                 armorDataState.postValue(ArmorDataPopulated(parts))
 
             } catch (t: Throwable) {
@@ -57,5 +57,11 @@ class ItemsListModel : ViewModel(), CoroutineScope by CoroutineScope(Job() + Dis
             }
 
         }
+    }
+
+    fun getItemById(itemId: Int) : ArmorPart? {
+        val currentState = armorDataState.value
+        val currentList = if (currentState is ArmorDataPopulated) currentState.items else return null
+        return currentList.firstOrNull { it.id == itemId }
     }
 }

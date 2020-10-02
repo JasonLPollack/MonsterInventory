@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/fragment_margin"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/item_name"
+        style="@style/TextAppearance.MaterialComponents.Headline4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center_horizontal"
+        tools:text="Item Name" />
+
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/middle_guideline"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".2" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/rank_name"
+        android:layout_width="0dp"
+        style="@style/TextAppearance.MaterialComponents.Subtitle1"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/item_name"
+        app:layout_constraintEnd_toStartOf="@id/middle_guideline"
+        android:layout_marginTop="20dp"
+        android:text="@string/rank_header" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/item_rank"
+        android:layout_width="0dp"
+        style="@style/TextAppearance.MaterialComponents.Subtitle1"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/rank_name"
+        app:layout_constraintStart_toEndOf="@id/middle_guideline"
+        android:paddingStart="8dp"
+        tools:text="MASTER" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/skill_name"
+        android:layout_marginTop="20dp"
+        android:layout_width="0dp"
+        style="@style/TextAppearance.MaterialComponents.Subtitle1"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/rank_name"
+        app:layout_constraintEnd_toStartOf="@id/middle_guideline"
+        android:text="@string/skills_header" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/skill_1_name"
+        android:layout_width="0dp"
+        style="@style/TextAppearance.MaterialComponents.Subtitle1"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/skill_name"
+        app:layout_constraintStart_toEndOf="@id/middle_guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingStart="8dp"
+        tools:text="Does damage" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/skill_1_description"
+        android:layout_width="0dp"
+        style="@style/TextAppearance.MaterialComponents.Subtitle2"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/skill_1_name"
+        app:layout_constraintStart_toEndOf="@id/middle_guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingStart="30dp"
+        tools:text="Makes the attack even better" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/skill_2_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="@style/TextAppearance.MaterialComponents.Subtitle1"
+        app:layout_constraintTop_toBottomOf="@id/skill_1_description"
+        app:layout_constraintStart_toEndOf="@id/middle_guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingStart="8dp"
+        android:paddingTop="8dp"
+        tools:text="Protection" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/skill_2_description"
+        android:layout_width="0dp"
+        style="@style/TextAppearance.MaterialComponents.Subtitle2"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/skill_2_name"
+        app:layout_constraintStart_toEndOf="@id/middle_guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingStart="30dp"
+        tools:text="Makes you stronger by giving you automatic exercise" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
