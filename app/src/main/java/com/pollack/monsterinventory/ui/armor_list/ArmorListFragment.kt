@@ -62,7 +62,9 @@ class ArmorListFragment : Fragment(R.layout.fragment_armor_list) {
 
     protected fun updateDisplayedList(partsToDisplay: List<ArmorPart>) {
         Log.v(TAG, "About to display ${partsToDisplay.count()} items in the list")
-        armorAdapter = ArmorListAdapter(partsToDisplay)
+        armorAdapter = ArmorListAdapter(partsToDisplay) { selectedItem ->
+            Log.v(TAG, "Clicked on ${selectedItem.name}")
+        }
         armor_list.adapter = armorAdapter
     }
 

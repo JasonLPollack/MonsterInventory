@@ -9,7 +9,12 @@ import com.pollack.monsterinventory.R
 import com.pollack.monsterinventory.domain.*
 import kotlinx.android.synthetic.main.armor_item_view.view.*
 
-class ArmorListAdapter(private val items: List<ArmorPart>): RecyclerView.Adapter<ArmorListAdapter.ArmorViewHolder>() {
+typealias ArmorPartSelectedCallback = (ArmorPart)->Unit
+
+class ArmorListAdapter(
+    private val items: List<ArmorPart>,
+    private val selectedCallback: ArmorPartSelectedCallback
+): RecyclerView.Adapter<ArmorListAdapter.ArmorViewHolder>() {
 
     class ArmorViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         companion object {
@@ -43,6 +48,7 @@ class ArmorListAdapter(private val items: List<ArmorPart>): RecyclerView.Adapter
                     slotImageView.visibility = View.GONE
                 }
             }
+
         }
     }
 
@@ -54,6 +60,9 @@ class ArmorListAdapter(private val items: List<ArmorPart>): RecyclerView.Adapter
     override fun onBindViewHolder(holder: ArmorViewHolder, position: Int) {
         val part = items[position]
         holder.bindTo(part)
+        holder.itemView.setOnClickListener {
+            selectedCallback(part)
+        }
     }
 
     override fun getItemCount() = items.size
