@@ -3,6 +3,7 @@ package com.pollack.monsterinventory.ui
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.pollack.monsterinventory.MonsterInventoryApp
 import com.pollack.monsterinventory.domain.ArmorPart
 import com.pollack.monsterinventory.repository.JsonRepository
 import com.pollack.util.TAG
@@ -12,6 +13,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
+import org.rewedigital.katana.KatanaTrait
+import org.rewedigital.katana.inject
 import java.net.URL
 
 
@@ -26,13 +29,14 @@ enum class ArmorSortBy {
     DEFENSE
 }
 
-class ItemsListModel : ViewModel(), CoroutineScope by CoroutineScope(Job() + Dispatchers.IO) {
+class ItemsListModel : KatanaTrait, ViewModel(), CoroutineScope by CoroutineScope(Job() + Dispatchers.IO) {
     companion object {
         val ARMOR_URL = "https://mhw-db.com/armor"
     }
 
-    //Typically we would inject dependencies such as this one
-    val jsonRepository = JsonRepository()
+    override val component = MonsterInventoryApp.appComponent
+
+    val jsonRepository : JsonRepository by inject()
 
     val armorDataState = MutableLiveData<ArmorDataState>(ArmorDataUninitialized())
     val filterBy = MutableLiveData<String>()
@@ -96,4 +100,6 @@ class ItemsListModel : ViewModel(), CoroutineScope by CoroutineScope(Job() + Dis
         val currentList = if (currentState is ArmorDataPopulated) currentState.items else return null
         return currentList.firstOrNull { it.id == itemId }
     }
+
+
 }
