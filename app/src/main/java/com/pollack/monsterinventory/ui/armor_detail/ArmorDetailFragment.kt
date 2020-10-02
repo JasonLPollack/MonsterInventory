@@ -1,8 +1,10 @@
 package com.pollack.monsterinventory.ui.armor_detail
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -14,8 +16,15 @@ import com.pollack.monsterinventory.ui.ItemsListModel
 import com.pollack.util.TAG
 import com.pollack.util.showBackButton
 import kotlinx.android.synthetic.main.fragment_armor_detail.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import java.net.URL
 
-class ArmorDetailFragment : Fragment(R.layout.fragment_armor_detail) {
+class ArmorDetailFragment : Fragment(R.layout.fragment_armor_detail),
+    CoroutineScope by CoroutineScope(Job() + Dispatchers.IO)
+{
 
     private val args: ArmorDetailFragmentArgs by navArgs()
     var item: ArmorPart? = null
@@ -54,14 +63,29 @@ class ArmorDetailFragment : Fragment(R.layout.fragment_armor_detail) {
         }
 
         item.assets?.imageMale?.let {imageSrc ->
-            image_male.setImageURI(imageSrc)
+            loadImageForView(imageSrc, img_male)
         }
 
         item.assets?.imageFemale?.let {imageSrc ->
-            image_female.setImageURI(imageSrc)
+            loadImageForView(imageSrc, img_female)
         }
 
     }
 
+    private fun loadImageForView(imageSrc: String, image_view: ImageView) {
+        launch {
+            try {
+                val imageData = URL(imageSrc).readBytes()
+                val image = BitmapFactory.decodeByteArray(imageData, 0, imageData.size)
+                launch(Dispatchers.Main) {
+                    image_view.setImageBitmap(image)
+                }
+
+            } catch (t: Throwable) {
+
+            }
+        }
+
+    }
 
 }

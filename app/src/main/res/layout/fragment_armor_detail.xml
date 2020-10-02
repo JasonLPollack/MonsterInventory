@@ -2,9 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
-    android:layout_margin="@dimen/fragment_margin"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="@dimen/fragment_margin"
     xmlns:tools="http://schemas.android.com/tools">
 
     <com.google.android.material.textview.MaterialTextView
@@ -21,7 +20,7 @@
 
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/middle_guideline"
+        android:id="@+id/section_guideline"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
@@ -33,7 +32,7 @@
         style="@style/TextAppearance.MaterialComponents.Subtitle1"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/item_name"
-        app:layout_constraintEnd_toStartOf="@id/middle_guideline"
+        app:layout_constraintEnd_toStartOf="@id/section_guideline"
         android:layout_marginTop="20dp"
         android:text="@string/rank_header" />
 
@@ -43,7 +42,7 @@
         style="@style/TextAppearance.MaterialComponents.Subtitle1"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="@id/rank_name"
-        app:layout_constraintStart_toEndOf="@id/middle_guideline"
+        app:layout_constraintStart_toEndOf="@id/section_guideline"
         android:paddingStart="8dp"
         tools:text="MASTER" />
 
@@ -54,7 +53,7 @@
         style="@style/TextAppearance.MaterialComponents.Subtitle1"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/rank_name"
-        app:layout_constraintEnd_toStartOf="@id/middle_guideline"
+        app:layout_constraintEnd_toStartOf="@id/section_guideline"
         android:text="@string/skills_header" />
 
     <com.google.android.material.textview.MaterialTextView
@@ -63,7 +62,7 @@
         style="@style/TextAppearance.MaterialComponents.Subtitle1"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="@id/skill_name"
-        app:layout_constraintStart_toEndOf="@id/middle_guideline"
+        app:layout_constraintStart_toEndOf="@id/section_guideline"
         app:layout_constraintEnd_toEndOf="parent"
         android:paddingStart="8dp"
         tools:text="Does damage" />
@@ -74,7 +73,7 @@
         style="@style/TextAppearance.MaterialComponents.Subtitle2"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/skill_1_name"
-        app:layout_constraintStart_toEndOf="@id/middle_guideline"
+        app:layout_constraintStart_toEndOf="@id/section_guideline"
         app:layout_constraintEnd_toEndOf="parent"
         android:paddingStart="30dp"
         tools:text="Makes the attack even better" />
@@ -85,7 +84,7 @@
         android:layout_height="wrap_content"
         style="@style/TextAppearance.MaterialComponents.Subtitle1"
         app:layout_constraintTop_toBottomOf="@id/skill_1_description"
-        app:layout_constraintStart_toEndOf="@id/middle_guideline"
+        app:layout_constraintStart_toEndOf="@id/section_guideline"
         app:layout_constraintEnd_toEndOf="parent"
         android:paddingStart="8dp"
         android:paddingTop="8dp"
@@ -97,12 +96,13 @@
         style="@style/TextAppearance.MaterialComponents.Subtitle2"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/skill_2_name"
-        app:layout_constraintStart_toEndOf="@id/middle_guideline"
+        app:layout_constraintStart_toEndOf="@id/section_guideline"
         app:layout_constraintEnd_toEndOf="parent"
         android:paddingStart="30dp"
         tools:text="Makes you stronger by giving you automatic exercise" />
 
     <LinearLayout
+        android:id="@+id/images_section"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/skill_2_description"
@@ -111,19 +111,36 @@
         android:orientation="horizontal"
         android:layout_marginTop="20dp"
         >
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/image_male"
-            fresco:actualImageScaleType="fitCenter"
-            android:layout_width="@dimen/item_detail_image_width"
-            android:layout_height="@dimen/item_detail_image_height"
-            android:layout_weight="1"/>
-
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/image_female"
-            fresco:actualImageScaleType="fitCenter"
-            android:layout_width="@dimen/item_detail_image_width"
-            android:layout_height="@dimen/item_detail_image_height"
-            android:layout_weight="1"/>
 
     </LinearLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/middle_guideline"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".5" />
+
+    <ImageView
+        android:id="@+id/img_male"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/middle_guideline"
+        app:layout_constraintTop_toBottomOf="@id/skill_2_description"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <ImageView
+        android:id="@+id/img_female"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="8dp"
+        app:layout_constraintStart_toEndOf="@id/middle_guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/img_male"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
