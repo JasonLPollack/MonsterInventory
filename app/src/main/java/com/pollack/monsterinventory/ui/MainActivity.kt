@@ -31,6 +31,8 @@ class MainActivity : AppCompatActivity(), CoroutineScope by CoroutineScope(Dispa
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_settings -> true
+
+            //Handle clicking on the back button in the toolbar
             android.R.id.home -> {
                 findNavController(R.id.nav_host_fragment).popBackStack()
                 true

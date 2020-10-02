@@ -22,7 +22,6 @@ class ArmorListFragment : Fragment(R.layout.fragment_armor_list) {
     private val model: ItemsListModel by activityViewModels()
 
     private var armorAdapter: ArmorListAdapter? = null
-    private var allArmor = listOf<ArmorPart>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -39,11 +38,11 @@ class ArmorListFragment : Fragment(R.layout.fragment_armor_list) {
         }
 
         model.filterBy.observe(viewLifecycleOwner) { _ ->
-            updateDisplayedList(model.getFilteredAndSortedList())
+            updateDisplayedList()
         }
 
         model.sortBy.observe(viewLifecycleOwner) { _ ->
-            updateDisplayedList(model.getFilteredAndSortedList())
+            updateDisplayedList()
         }
 
         filter.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
@@ -87,8 +86,10 @@ class ArmorListFragment : Fragment(R.layout.fragment_armor_list) {
         }
     }
 
-    protected fun updateDisplayedList(partsToDisplay: List<ArmorPart>) {
+    protected fun updateDisplayedList() {
+        val partsToDisplay = model.getFilteredAndSortedList()
         Log.v(TAG, "About to display ${partsToDisplay.count()} items in the list")
+
         armorAdapter = ArmorListAdapter(partsToDisplay) { selectedItem ->
             val action = ArmorListFragmentDirections.actionArmorListToArmorDetail(armorItemId = selectedItem.id)
             findNavController().navigate(action)
@@ -97,6 +98,7 @@ class ArmorListFragment : Fragment(R.layout.fragment_armor_list) {
         armor_list.adapter = armorAdapter
     }
 
+    //Show loading or error card, or the main list display based on the current state
     protected fun onUpdatedState(state: ArmorDataState) {
         var loadingCardVisibility = View.GONE
         var errorCardVisibility = View.GONE
@@ -105,7 +107,7 @@ class ArmorListFragment : Fragment(R.layout.fragment_armor_list) {
         when (state) {
             is ArmorDataPopulated -> {
                 listVisibility = View.VISIBLE
-                onHaveParts(state.items)
+                updateDisplayedList()
             }
             is ArmorDataError -> {
                 errorCardVisibility = View.VISIBLE
@@ -119,11 +121,6 @@ class ArmorListFragment : Fragment(R.layout.fragment_armor_list) {
         loading_card.visibility = loadingCardVisibility
         error_card.visibility = errorCardVisibility
         main_list_layout.visibility = listVisibility
-    }
-
-    protected fun onHaveParts(parts: List<ArmorPart>) {
-        allArmor = parts.sortedBy { it.name }
-        updateDisplayedList(allArmor)
     }
 
     protected fun onUninitialized() {
