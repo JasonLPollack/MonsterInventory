@@ -1,15 +1,15 @@
 package com.pollack.monsterinventory.ui
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.pollack.monsterinventory.domain.ArmorPart
 import com.pollack.monsterinventory.repository.JsonRepository
 import com.pollack.util.TAG
-import kotlinx.coroutines.*
-import kotlinx.serialization.Serializable
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
 import java.net.URL
@@ -30,6 +30,10 @@ class ItemsListModel : ViewModel(), CoroutineScope by CoroutineScope(Job() + Dis
 
     val armorDataState = MutableLiveData<ArmorDataState>(ArmorDataUninitialized())
     val filterBy = MutableLiveData<String>()
+
+    fun reset() {
+        armorDataState.postValue(ArmorDataUninitialized())
+    }
 
     fun loadItems() {
         //Sanity check. Don't load if we already have data

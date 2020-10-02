@@ -1,6 +1,5 @@
 package com.pollack.monsterinventory.ui.armor_detail
 
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.view.View

@@ -1,6 +1,5 @@
 package com.pollack.monsterinventory.domain
 
-import android.view.View
 import com.pollack.monsterinventory.R
 
 val ArmorPart.imageResource get() = when (type) {
