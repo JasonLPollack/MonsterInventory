@@ -59,6 +59,10 @@ class ArmorListFragment : Fragment(R.layout.fragment_armor_list) {
 
         })
 
+        initializeSortButton()
+    }
+
+    protected fun initializeSortButton() {
         sort_direction.setOnClickListener {
             val menu = PopupMenu(requireContext(), sort_direction)
             menu.inflate(R.menu.sort_menu)
@@ -81,7 +85,6 @@ class ArmorListFragment : Fragment(R.layout.fragment_armor_list) {
             }
             menu.show()
         }
-
     }
 
     protected fun updateDisplayedList(partsToDisplay: List<ArmorPart>) {
