@@ -11,6 +11,8 @@ import kotlinx.android.synthetic.main.armor_item_view.view.*
 
 typealias ArmorPartSelectedCallback = (ArmorPart)->Unit
 
+//Adapter takes a list of items to display, and a callback function that executes
+//when an item is selected.
 class ArmorListAdapter(
     private val items: List<ArmorPart>,
     private val selectedCallback: ArmorPartSelectedCallback

@@ -1,6 +1,9 @@
 package com.pollack.monsterinventory.domain
 import kotlinx.serialization.Serializable
 
+//Use enum classes for rank and type to save some memory usage and also to make it easier on
+//localization
+
 @Serializable
 data class ArmorPart(
     val id: Int,

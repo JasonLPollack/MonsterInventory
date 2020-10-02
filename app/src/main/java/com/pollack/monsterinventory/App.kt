@@ -19,13 +19,14 @@ class MonsterInventoryApp : Application() {
         val appComponent get() = requireNotNull(app).appComponent
     }
 
+    //Katana component with app-level modules
     val appComponent = Component(modules = listOf(repositoryModule))
+
     override fun onCreate() {
         super.onCreate()
 
         Katana.environmentContext = AndroidEnvironmentContext()
         app = this
-
     }
 
 }
