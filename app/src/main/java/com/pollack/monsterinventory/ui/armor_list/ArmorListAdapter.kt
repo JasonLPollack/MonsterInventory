@@ -34,7 +34,7 @@ class ArmorListAdapter(
         fun bindTo(item: ArmorPart) {
             view.item_name.text = item.name
             view.type_image.setImageResource(item.imageResource)
-            view.item_rank.text = item.rankText
+            view.item_rank.text = item.getRankText(view.context)
             view.item_min_defense.text = item.minDefenseText
 
             //Determine whether each slot image should be visible, and if so, which rank icon to display

@@ -9,7 +9,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import com.pollack.monsterinventory.R
 import com.pollack.monsterinventory.domain.ArmorPart
-import com.pollack.monsterinventory.domain.rankText
+import com.pollack.monsterinventory.domain.getRankText
 import com.pollack.monsterinventory.repository.ImageRepository
 import com.pollack.monsterinventory.ui.ItemsListModel
 import com.pollack.util.TAG
@@ -42,7 +42,7 @@ class ArmorDetailFragment : Fragment(R.layout.fragment_armor_detail),
 
     private fun displayDetailForItem(item: ArmorPart) {
         item_name.text = item.name
-        item_rank.text = item.rankText
+        item_rank.text = item.getRankText(requireContext())
 
         item.skills.getOrNull(0)?.let {skill ->
             skill_1_name.text = skill.skillName

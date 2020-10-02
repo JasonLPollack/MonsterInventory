@@ -15,4 +15,10 @@
     <string name="rank_header">Rank:</string>
     <string name="skills_header">Skills:</string>
     <string name="skills_none">None</string>
+
+    <string name="rank_low">Low</string>
+    <string name="rank_high">High</string>
+    <string name="rank_master">Master</string>
+    <string name="rank_unknown">Unknown</string>
+
 </resources>
