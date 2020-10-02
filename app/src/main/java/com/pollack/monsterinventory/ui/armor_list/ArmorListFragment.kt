@@ -2,6 +2,7 @@ package com.pollack.monsterinventory.ui.armor_list
 
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
 import android.view.View
 import android.widget.PopupMenu
 import android.widget.SearchView
@@ -30,38 +31,18 @@ class ArmorListFragment : Fragment(R.layout.fragment_armor_list) {
         armor_list.layoutManager = LinearLayoutManager(requireContext())
 
         model.armorDataState.observe(viewLifecycleOwner) { state ->
-            var loadingCardVisibility = View.GONE
-            var errorCardVisibility = View.GONE
-            var listVisibility = View.GONE
-
-            when (state) {
-                is ArmorDataPopulated -> {
-                    listVisibility = View.VISIBLE
-                    onHaveParts(state.items)
-                }
-                is ArmorDataError -> {
-                    errorCardVisibility = View.VISIBLE
-                }
-                is ArmorDataUninitialized -> {
-                    loadingCardVisibility = View.VISIBLE
-                    onUninitialized()
-                }
-            }
-
-            loading_card.visibility = loadingCardVisibility
-            error_card.visibility = errorCardVisibility
-            main_list_layout.visibility = listVisibility
+            onUpdatedState(state)
         }
 
         btn_try_again.setOnClickListener {
             model.reset()
         }
 
-        model.filterBy.observe(viewLifecycleOwner) { filterBy ->
+        model.filterBy.observe(viewLifecycleOwner) { _ ->
             updateDisplayedList(model.getFilteredAndSortedList())
         }
 
-        model.sortBy.observe(viewLifecycleOwner) { sortBy ->
+        model.sortBy.observe(viewLifecycleOwner) { _ ->
             updateDisplayedList(model.getFilteredAndSortedList())
         }
 
@@ -81,6 +62,15 @@ class ArmorListFragment : Fragment(R.layout.fragment_armor_list) {
         sort_direction.setOnClickListener {
             val menu = PopupMenu(requireContext(), sort_direction)
             menu.inflate(R.menu.sort_menu)
+            val selectedItemId = when (model.sortBy.value) {
+                ArmorSortBy.DEFENSE -> R.id.sort_by_defense
+                ArmorSortBy.RANK -> R.id.sort_by_rank
+                else -> R.id.sort_by_name
+            }
+            menu.menu.findItem(selectedItemId)?.let {
+                it.setChecked(true)
+            }
+
             menu.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.sort_by_name -> model.sortBy.postValue(ArmorSortBy.NAME)
@@ -102,6 +92,30 @@ class ArmorListFragment : Fragment(R.layout.fragment_armor_list) {
             Log.v(TAG, "Clicked on ${selectedItem.name}")
         }
         armor_list.adapter = armorAdapter
+    }
+
+    protected fun onUpdatedState(state: ArmorDataState) {
+        var loadingCardVisibility = View.GONE
+        var errorCardVisibility = View.GONE
+        var listVisibility = View.GONE
+
+        when (state) {
+            is ArmorDataPopulated -> {
+                listVisibility = View.VISIBLE
+                onHaveParts(state.items)
+            }
+            is ArmorDataError -> {
+                errorCardVisibility = View.VISIBLE
+            }
+            is ArmorDataUninitialized -> {
+                loadingCardVisibility = View.VISIBLE
+                onUninitialized()
+            }
+        }
+
+        loading_card.visibility = loadingCardVisibility
+        error_card.visibility = errorCardVisibility
+        main_list_layout.visibility = listVisibility
     }
 
     protected fun onHaveParts(parts: List<ArmorPart>) {

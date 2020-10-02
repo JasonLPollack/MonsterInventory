@@ -3,19 +3,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.pollack.monsterinventory.ui.MainActivity">
 
-    <item
-        android:id="@+id/sort_by_name"
-        android:title="@string/sort_name"
-        app:showAsAction="never" />
+    <group
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/sort_by_name"
+            android:title="@string/sort_name"
+            app:showAsAction="never" />
 
-    <item
-        android:id="@+id/sort_by_defense"
-        android:title="@string/sort_defense"
-        app:showAsAction="never" />
+        <item
+            android:id="@+id/sort_by_defense"
+            android:title="@string/sort_defense"
+            app:showAsAction="never" />
 
-    <item
-        android:id="@+id/sort_by_rank"
-        android:title="@string/sort_rank"
-        app:showAsAction="never" />
+        <item
+            android:id="@+id/sort_by_rank"
+            android:title="@string/sort_rank"
+            app:showAsAction="never" />
+
+    </group>
 
 </menu>

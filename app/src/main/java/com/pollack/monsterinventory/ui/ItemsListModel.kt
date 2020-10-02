@@ -49,25 +49,13 @@ class ItemsListModel : ViewModel(), CoroutineScope by CoroutineScope(Job() + Dis
             else -> listOf()
         }
         val filter = filterBy.value ?: ""
-        val comparator: Comparator<ArmorPart> = when (sortBy.value) {
-            ArmorSortBy.RANK -> object: Comparator<ArmorPart> {
-                override fun compare(left: ArmorPart, right: ArmorPart) : Int {
-                    var res = left.rank.ordinal.compareTo(right.rank.ordinal)
-                    if (res == 0) res = left.name.compareTo(right.name)
-                    return res
-                }
-            }
-            ArmorSortBy.DEFENSE -> object: Comparator<ArmorPart> {
-                override fun compare(left: ArmorPart, right: ArmorPart) : Int {
-                    var res = left.defense.base.compareTo(right.defense.base)
-                    if (res == 0) res = left.name.compareTo(right.name)
-                    return res
-                }
-            }
-            else -> object: Comparator<ArmorPart> {
-                override fun compare(left: ArmorPart, right: ArmorPart) = left.name.compareTo(right.name)
-            }
+
+        val comparator = when (sortBy.value) {
+            ArmorSortBy.RANK -> compareBy<ArmorPart> { it.rank.ordinal }.thenBy { it.name }
+            ArmorSortBy.DEFENSE -> compareBy<ArmorPart> { it.defense.base }.thenBy { it.name }
+            else -> compareBy<ArmorPart> { it.name }
         }
+
         return allArmor.filter { it.name.contains(filter, ignoreCase = true) }
             .sortedWith(comparator)
     }
