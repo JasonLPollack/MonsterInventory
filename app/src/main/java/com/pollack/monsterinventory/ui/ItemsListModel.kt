@@ -1,9 +1,12 @@
 package com.pollack.monsterinventory.ui
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.pollack.monsterinventory.domain.ArmorPart
+import com.pollack.monsterinventory.repository.JsonRepository
 import com.pollack.util.TAG
 import kotlinx.coroutines.*
 import kotlinx.serialization.Serializable
@@ -14,13 +17,16 @@ import java.net.URL
 
 sealed class ArmorDataState
 class ArmorDataUninitialized: ArmorDataState()
-class ArmorDataError(val error: Throwable): ArmorDataState()
+class ArmorDataError(): ArmorDataState()
 class ArmorDataPopulated(val items: List<ArmorPart>) : ArmorDataState()
 
 class ItemsListModel : ViewModel(), CoroutineScope by CoroutineScope(Job() + Dispatchers.IO) {
     companion object {
         val ARMOR_URL = "https://mhw-db.com/armor"
     }
+
+    //Typically we would inject dependencies such as this one
+    val jsonRepository = JsonRepository()
 
     val armorDataState = MutableLiveData<ArmorDataState>(ArmorDataUninitialized())
     val filterBy = MutableLiveData<String>()
@@ -29,13 +35,11 @@ class ItemsListModel : ViewModel(), CoroutineScope by CoroutineScope(Job() + Dis
         //Sanity check. Don't load if we already have data
         if (armorDataState.value is ArmorDataPopulated) return
 
-        val url = URL(ARMOR_URL)
-
+        val armorURL = URL(ARMOR_URL)
         launch {
-            try {
-                val armorJSON  = url.readText()
+            val armorJSON  = jsonRepository.loadJsonAtURL(armorURL)
+            if (armorJSON != null) {
                 Log.v(TAG, "Read JSON length ${armorJSON.length} from armor repository")
-
                 val jsonPartsParser = Json {
                     ignoreUnknownKeys = true
                 }
@@ -50,12 +54,10 @@ class ItemsListModel : ViewModel(), CoroutineScope by CoroutineScope(Job() + Dis
                 val skills = parts.maxOf { it.skills.size }
                 Log.v(TAG, "Max Skills: $skills")
                 armorDataState.postValue(ArmorDataPopulated(parts))
-
-            } catch (t: Throwable) {
-                Log.v(TAG, "Error reading from $ARMOR_URL", t)
-                armorDataState.postValue(ArmorDataError(t))
+            } else {
+                Log.v(TAG, "Error reading from $ARMOR_URL")
+                armorDataState.postValue(ArmorDataError())
             }
-
         }
     }
 

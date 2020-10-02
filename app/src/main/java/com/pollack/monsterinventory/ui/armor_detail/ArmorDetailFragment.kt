@@ -5,26 +5,25 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import com.pollack.monsterinventory.R
 import com.pollack.monsterinventory.domain.ArmorPart
 import com.pollack.monsterinventory.domain.rankText
+import com.pollack.monsterinventory.repository.ImageRepository
 import com.pollack.monsterinventory.ui.ItemsListModel
 import com.pollack.util.TAG
 import com.pollack.util.showBackButton
 import kotlinx.android.synthetic.main.fragment_armor_detail.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.net.URL
 
 class ArmorDetailFragment : Fragment(R.layout.fragment_armor_detail),
     CoroutineScope by CoroutineScope(Job() + Dispatchers.IO)
 {
+    //Normally, dependencies like this would be injected
+    private val imageRepository = ImageRepository()
 
     private val args: ArmorDetailFragmentArgs by navArgs()
     var item: ArmorPart? = null
@@ -73,16 +72,14 @@ class ArmorDetailFragment : Fragment(R.layout.fragment_armor_detail),
     }
 
     private fun loadImageForView(imageSrc: String, image_view: ImageView) {
+        val imageURL = URL(imageSrc)
+
         launch {
-            try {
-                val imageData = URL(imageSrc).readBytes()
-                val image = BitmapFactory.decodeByteArray(imageData, 0, imageData.size)
-                launch(Dispatchers.Main) {
+            val image = imageRepository.loadImage(imageURL)
+            if (image != null) {
+                withContext(Dispatchers.Main) {
                     image_view.setImageBitmap(image)
                 }
-
-            } catch (t: Throwable) {
-
             }
         }
 
