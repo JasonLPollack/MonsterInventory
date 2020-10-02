@@ -21,4 +21,7 @@
     <string name="rank_master">Master</string>
     <string name="rank_unknown">Unknown</string>
 
+    <string name="sort_name">Sort By Name</string>
+    <string name="sort_defense">Sort By Base Defense</string>
+    <string name="sort_rank">Sort By Rank</string>
 </resources>

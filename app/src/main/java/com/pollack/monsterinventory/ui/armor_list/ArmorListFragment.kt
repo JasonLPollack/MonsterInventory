@@ -3,6 +3,7 @@ package com.pollack.monsterinventory.ui.armor_list
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.PopupMenu
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -10,10 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pollack.monsterinventory.R
 import com.pollack.monsterinventory.domain.ArmorPart
-import com.pollack.monsterinventory.ui.ArmorDataError
-import com.pollack.monsterinventory.ui.ArmorDataPopulated
-import com.pollack.monsterinventory.ui.ArmorDataUninitialized
-import com.pollack.monsterinventory.ui.ItemsListModel
+import com.pollack.monsterinventory.ui.*
 import com.pollack.util.TAG
 import com.pollack.util.hideBackButton
 import kotlinx.android.synthetic.main.fragment_armor_list.*
@@ -60,10 +58,11 @@ class ArmorListFragment : Fragment(R.layout.fragment_armor_list) {
         }
 
         model.filterBy.observe(viewLifecycleOwner) { filterBy ->
-            val filteredListOfParts = allArmor.filter { part ->
-                part.name.contains(filterBy, ignoreCase = true)
-            }
-            updateDisplayedList(filteredListOfParts)
+            updateDisplayedList(model.getFilteredAndSortedList())
+        }
+
+        model.sortBy.observe(viewLifecycleOwner) { sortBy ->
+            updateDisplayedList(model.getFilteredAndSortedList())
         }
 
         filter.setOnQueryTextListener(object : SearchView.OnQueryTextListener,
@@ -78,6 +77,20 @@ class ArmorListFragment : Fragment(R.layout.fragment_armor_list) {
             }
 
         })
+
+        sort_direction.setOnClickListener {
+            val menu = PopupMenu(requireContext(), sort_direction)
+            menu.inflate(R.menu.sort_menu)
+            menu.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.sort_by_name -> model.sortBy.postValue(ArmorSortBy.NAME)
+                    R.id.sort_by_defense -> model.sortBy.postValue(ArmorSortBy.DEFENSE)
+                    R.id.sort_by_rank -> model.sortBy.postValue(ArmorSortBy.RANK)
+                }
+                true
+            }
+            menu.show()
+        }
 
     }
 
