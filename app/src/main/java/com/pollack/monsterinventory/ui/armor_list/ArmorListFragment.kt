@@ -23,7 +23,6 @@ class ArmorListFragment : Fragment(R.layout.fragment_armor_list) {
     private val model: ItemsListModel by activityViewModels()
 
     private var armorAdapter: ArmorListAdapter? = null
-
     private var allArmor = listOf<ArmorPart>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,7 +43,6 @@ class ArmorListFragment : Fragment(R.layout.fragment_armor_list) {
                 }
                 is ArmorDataError -> {
                     errorCardVisibility = View.VISIBLE
-                    onRetrievalError()
                 }
                 is ArmorDataUninitialized -> {
                     loadingCardVisibility = View.VISIBLE
@@ -80,11 +78,7 @@ class ArmorListFragment : Fragment(R.layout.fragment_armor_list) {
             }
 
         })
-    }
 
-    protected fun onHaveParts(parts: List<ArmorPart>) {
-        allArmor = parts.sortedBy { it.name }
-        updateDisplayedList(allArmor)
     }
 
     protected fun updateDisplayedList(partsToDisplay: List<ArmorPart>) {
@@ -97,8 +91,9 @@ class ArmorListFragment : Fragment(R.layout.fragment_armor_list) {
         armor_list.adapter = armorAdapter
     }
 
-    protected fun onRetrievalError() {
-        Log.v(TAG, "Oh noes!")
+    protected fun onHaveParts(parts: List<ArmorPart>) {
+        allArmor = parts.sortedBy { it.name }
+        updateDisplayedList(allArmor)
     }
 
     protected fun onUninitialized() {

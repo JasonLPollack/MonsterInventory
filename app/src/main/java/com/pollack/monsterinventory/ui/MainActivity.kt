@@ -19,7 +19,9 @@ class MainActivity : AppCompatActivity(), CoroutineScope by CoroutineScope(Dispa
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
+
+        //We don't need a menu for now
+        // menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
 

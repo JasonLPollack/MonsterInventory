@@ -49,14 +49,15 @@ class ItemsListModel : ViewModel(), CoroutineScope by CoroutineScope(Job() + Dis
                 }
                 val parts = jsonPartsParser.decodeFromString(ListSerializer(ArmorPart.serializer()), armorJSON)
 
+                //Take a quick inspection to confirm the values we think we know about
                 Log.v(TAG, "Have ${parts.size} parts")
-
                 val ranks = parts.mapTo(HashSet()) {it.rank}
                 val types = parts.mapTo(HashSet()) {it.type}
+                val skills = parts.maxOf { it.skills.size }
                 Log.v(TAG, "Ranks: ${ranks.joinToString(", ")}")
                 Log.v(TAG, "Types: ${types.joinToString(", ")}")
-                val skills = parts.maxOf { it.skills.size }
                 Log.v(TAG, "Max Skills: $skills")
+
                 armorDataState.postValue(ArmorDataPopulated(parts))
             } else {
                 Log.v(TAG, "Error reading from $ARMOR_URL")
