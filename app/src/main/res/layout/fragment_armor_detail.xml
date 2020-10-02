@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_margin="@dimen/fragment_margin"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
@@ -101,4 +102,28 @@
         android:paddingStart="30dp"
         tools:text="Makes you stronger by giving you automatic exercise" />
 
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/skill_2_description"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        >
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/image_male"
+            fresco:actualImageScaleType="fitCenter"
+            android:layout_width="@dimen/item_detail_image_width"
+            android:layout_height="@dimen/item_detail_image_height"
+            android:layout_weight="1"/>
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/image_female"
+            fresco:actualImageScaleType="fitCenter"
+            android:layout_width="@dimen/item_detail_image_width"
+            android:layout_height="@dimen/item_detail_image_height"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -52,6 +52,13 @@ class ArmorDetailFragment : Fragment(R.layout.fragment_armor_detail) {
             skill_2_description.visibility = View.GONE
         }
 
+        item.assets?.imageMale?.let {imageSrc ->
+            image_male.setImageURI(imageSrc)
+        }
+
+        item.assets?.imageFemale?.let {imageSrc ->
+            image_female.setImageURI(imageSrc)
+        }
 
     }
 
