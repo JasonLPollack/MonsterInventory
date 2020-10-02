@@ -12,6 +12,7 @@ import com.pollack.monsterinventory.R
 import com.pollack.monsterinventory.domain.ArmorPart
 import com.pollack.monsterinventory.ui.*
 import com.pollack.util.TAG
+import com.pollack.util.hideBackButton
 import kotlinx.android.synthetic.main.fragment_armor_list.*
 
 class ArmorListFragment : Fragment(R.layout.fragment_armor_list) {
@@ -24,6 +25,8 @@ class ArmorListFragment : Fragment(R.layout.fragment_armor_list) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        hideBackButton()
+
         armor_list.layoutManager = LinearLayoutManager(requireContext())
 
         model.armorDataState.observe(viewLifecycleOwner) { state ->

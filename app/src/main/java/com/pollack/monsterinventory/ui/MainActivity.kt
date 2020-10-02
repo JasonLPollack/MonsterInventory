@@ -6,7 +6,9 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import androidx.navigation.findNavController
 import com.pollack.monsterinventory.R
+import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity(), CoroutineScope by CoroutineScope(Dispatchers.Main) {
@@ -29,6 +31,10 @@ class MainActivity : AppCompatActivity(), CoroutineScope by CoroutineScope(Dispa
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_settings -> true
+            android.R.id.home -> {
+                findNavController(R.id.nav_host_fragment).popBackStack()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
