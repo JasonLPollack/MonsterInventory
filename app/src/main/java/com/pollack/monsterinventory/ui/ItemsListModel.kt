@@ -20,6 +20,12 @@ class ArmorDataUninitialized: ArmorDataState()
 class ArmorDataError(): ArmorDataState()
 class ArmorDataPopulated(val items: List<ArmorPart>) : ArmorDataState()
 
+enum class ArmorSortBy {
+    NAME,
+    RANK,
+    DEFENSE
+}
+
 class ItemsListModel : ViewModel(), CoroutineScope by CoroutineScope(Job() + Dispatchers.IO) {
     companion object {
         val ARMOR_URL = "https://mhw-db.com/armor"
@@ -30,9 +36,28 @@ class ItemsListModel : ViewModel(), CoroutineScope by CoroutineScope(Job() + Dis
 
     val armorDataState = MutableLiveData<ArmorDataState>(ArmorDataUninitialized())
     val filterBy = MutableLiveData<String>()
+    val sortBy = MutableLiveData<ArmorSortBy>(ArmorSortBy.NAME)
 
     fun reset() {
         armorDataState.postValue(ArmorDataUninitialized())
+    }
+
+    fun getFilteredAndSortedList() : List<ArmorPart> {
+        val currentValue = armorDataState.value
+        val allArmor = when (currentValue) {
+            is ArmorDataPopulated -> currentValue.items
+            else -> listOf()
+        }
+        val filter = filterBy.value ?: ""
+
+        val comparator = when (sortBy.value) {
+            ArmorSortBy.RANK -> compareBy<ArmorPart> { it.rank.ordinal }.thenBy { it.name }
+            ArmorSortBy.DEFENSE -> compareBy<ArmorPart> { it.defense.base }.thenBy { it.name }
+            else -> compareBy<ArmorPart> { it.name }
+        }
+
+        return allArmor.filter { it.name.contains(filter, ignoreCase = true) }
+            .sortedWith(comparator)
     }
 
     fun loadItems() {
