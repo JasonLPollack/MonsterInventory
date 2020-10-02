@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.SearchView
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.pollack.monsterinventory.R
 import com.pollack.monsterinventory.domain.ArmorPart
@@ -63,6 +63,8 @@ class ArmorListFragment : Fragment(R.layout.fragment_armor_list) {
     protected fun updateDisplayedList(partsToDisplay: List<ArmorPart>) {
         Log.v(TAG, "About to display ${partsToDisplay.count()} items in the list")
         armorAdapter = ArmorListAdapter(partsToDisplay) { selectedItem ->
+            val action = ArmorListFragmentDirections.actionArmorListToArmorDetail(armorItemId = selectedItem.id)
+            findNavController().navigate(action)
             Log.v(TAG, "Clicked on ${selectedItem.name}")
         }
         armor_list.adapter = armorAdapter

@@ -9,7 +9,9 @@ data class ArmorPart(
     val rank: String,
     val defense: Defense,
     val slots: List<Slot>,
-    val type: String
+    val type: String,
+    val skills: List<Skill>,
+    val assets: Assets?
 ) {
     @Serializable
     class Defense(val base: Int, val max: Int, val augmented: Int)
@@ -17,5 +19,9 @@ data class ArmorPart(
     @Serializable
     class Slot(val rank: Int)
 
-    val numSlots get() = slots.size
+    @Serializable
+    class Skill(val skillName: String, val description: String)
+
+    @Serializable
+    class Assets(val imageMale: String?, val imageFemale: String?)
 }
