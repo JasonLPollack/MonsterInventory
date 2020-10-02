@@ -17,15 +17,12 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim">
         </action>
     </fragment>
+
     <fragment
         android:id="@+id/ArmorDetail"
         android:name="com.pollack.monsterinventory.ui.armor_detail.ArmorDetailFragment"
         android:label="@string/armor_detail_label"
-        tools:layout="@layout/fragment_second">
-
-        <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/ArmorList" />
+        tools:layout="@layout/fragment_armor_detail">
 
         <argument
             android:name="armorItemId"
