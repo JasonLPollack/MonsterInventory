@@ -1,5 +1,9 @@
 <resources>
     <string name="app_name">Monster Hunter Inventory</string>
+    <string name="loading">Loading Inventory...</string>
+    <string name="error_loading">Could not load inventory</string>
+    <string name="try_again">Try Again</string>
+
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="armor_list_label">Armor List</string>
